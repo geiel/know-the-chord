@@ -29,7 +29,7 @@
 </script>
 
 <a
-	class="fixed z-50 bottom-10 right-8 rounded-full border border-indigo-600 bg-indigo-600 p-5 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+	class="fixed z-50 bottom-10 right-8 rounded-full border border-indigo-600 bg-indigo-600 p-4 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
 	href="/songs/new"
 >
 	<svg
