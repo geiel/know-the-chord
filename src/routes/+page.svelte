@@ -1,36 +1,27 @@
-<script>
-	import { editMode, songTitle, selectedChord } from '$lib/songsStore';
+<script lang="ts">
+	import { editMode, searchedSongTitle, searchedChordValue } from '$lib/songsStore';
 	import { onMount } from 'svelte';
-	import { env } from '$env/dynamic/public';
 
-	let page = 1;
-	/**
-	 * @type {any[]}
-	 */
-	let daySongs = [];
-	/**
-	 * @type {never[]}
-	 */
-	let newDaySongs = [];
+	editMode.set(false);
+	searchedChordValue.set('');
+	searchedSongTitle.set('');
 
-	$: daySongs = [...daySongs, ...newDaySongs];
+	let songGroups = [] as SQLSongGroup[];
+
+	const fetchSongGroups = async () => {
+		const response = await fetch('/api/song-groups');
+		const jsonReponse = await response.json();
+		songGroups = jsonReponse.rows;
+	};
 
 	onMount(() => {
-		fetchDaySongs();
-		editMode.set(false);
-		songTitle.set('');
-		selectedChord.set('');
+		fetchSongGroups();
 	});
-
-	async function fetchDaySongs() {
-		const response = await fetch(`${env.PUBLIC_SERVER}/day_songs?page_numer=${page}`);
-		newDaySongs = await response.json();
-	}
 </script>
 
 <a
 	class="fixed z-50 bottom-10 right-8 rounded-full border border-indigo-600 bg-indigo-600 p-4 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-	href="/songs/new"
+	href="/groups"
 >
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
@@ -46,16 +37,16 @@
 </a>
 
 <div class="flex flex-col gap-2 pt-3">
-	{#each daySongs as daySong}
+	{#each songGroups as songGroup}
 		<a
 			class="relative flex items-start justify-between rounded-xl border border-gray-100 p-4 shadow-md sm:p-6 lg:p-8"
-			href={`/songs/${daySong._id}`}
+			href={`/groups/${songGroup.id}`}
 		>
 			<div class="text-gray-500">
-				<h3 class="text-lg font-bold text-gray-900 sm:text-xl">{daySong.day}</h3>
+				<h3 class="text-lg font-bold text-gray-900 sm:text-xl">{songGroup.sgTitle}</h3>
 
 				<p class="text-sm sm:block">
-					{daySong.songsOrder[0].title} - {daySong.songsOrder[0].dayChord}
+					{songGroup.songTitle} - {songGroup.chordValue}
 				</p>
 			</div>
 		</a>

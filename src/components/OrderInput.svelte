@@ -1,55 +1,41 @@
-<script>
-	// @ts-nocheck
-
-	import { songTitle, selectedChord } from '$lib/songsStore';
+<script lang="ts">
+	import { searchedSongTitle, searchedChordValue } from '$lib/songsStore';
 	import { createEventDispatcher } from 'svelte';
+	import TransparentInput from './TransparentInput.svelte';
 
-	const dispatch = createEventDispatcher();
-	export let order = 1;
-	export let title = '';
-	export let chord = '';
+	const dispatch = createEventDispatcher<{ changePosition: { newPosition: number } }>();
 
-	/**
-	 * @type {HTMLInputElement}
-	 */
-	let orderInput;
+	export let position: string;
+	export let songTitle: string;
+	export let chord: string;
 
-	$: width = order ? order.toString().length ?? 1 : 1;
-
-	function refactorOrder() {
-		if (!/^\d+$/.test(order)) {
-			order = order.replace(/\D/g, '');
+	function dispatchReorderSongs(event: CustomEvent<{ value: string }>) {
+		if (event.detail.value !== position) {
+			dispatch('changePosition', {
+				newPosition: Number(event.detail.value)
+			});
 		}
-
-		dispatch('orderList', {
-			newOrder: order,
-			title
-		});
 	}
 
 	function focusOrderInput() {
-		songTitle.set(title);
-		selectedChord.set('');
+		searchedSongTitle.set(songTitle);
+		searchedChordValue.set('');
 	}
 </script>
 
 <div class="text-md">
-	{#if title}
-		<!-- svelte-ignore a11y-invalid-attribute -->
-		<a href="#" on:click={focusOrderInput}>
-			<input
-				type="text"
-				bind:value={order}
-				bind:this={orderInput}
-				on:blur={refactorOrder}
-				size={width}
-				maxlength="4"
+	{#if songTitle}
+		<button on:click={focusOrderInput} type="button">
+			<TransparentInput
+				value={position}
+				maxlength={4}
 				pattern="[0-9]*"
 				inputmode="numeric"
-				class="border-transparent focus:border-transparent focus:ring-0"
+				on:focus={dispatchReorderSongs}
+				on:enter={dispatchReorderSongs}
 			/>
-			{title} - {chord}
-		</a>
+			{songTitle} - {chord}
+		</button>
 	{:else}
 		Write the song
 	{/if}
