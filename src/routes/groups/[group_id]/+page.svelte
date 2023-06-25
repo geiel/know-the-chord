@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { editMode, selectedSongGroup } from '$lib/songsStore';
+	import { selectedSongGroup } from '$lib/songsStore';
 	import type { PageData } from './$types';
 	import type { SQLSongOrders } from './+page.server';
 	import OrderInput from '../../../components/OrderInput.svelte';
@@ -9,7 +9,8 @@
 	if (data.songGroup) {
 		selectedSongGroup.set(data.songGroup);
 	}
-	editMode.set(true);
+
+	$: songs = data.songsOrders;
 
 	async function swapPosition(song: SQLSongOrders, newPosition: number) {
 		if (newPosition > data.songsOrders.length) {
@@ -46,7 +47,7 @@
 	}
 </script>
 
-{#each data.songsOrders as song (song.songId)}
+{#each songs as song (song.songId)}
 	<OrderInput
 		songTitle={song.songTitle}
 		chord={song.chordValue}

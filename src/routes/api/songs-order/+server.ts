@@ -1,6 +1,4 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import type { RowDataPacket } from "mysql2/promise";
-
 export const PUT = (async ({ request, locals, url }) => {
     const body = await request.json() as UpdatePositionRequest;
     const groupId = Number(url.searchParams.get('groupId'));

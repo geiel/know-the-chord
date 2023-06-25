@@ -49,5 +49,5 @@
 	{pattern}
 	{inputmode}
 	name="transparent-input"
-	class="border-transparent focus:border-transparent focus:ring-0"
+	class="border-transparent focus:border-transparent focus:ring-0 dark:bg-black dark:text-white"
 />

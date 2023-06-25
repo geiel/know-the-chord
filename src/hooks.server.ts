@@ -4,6 +4,6 @@ import type { Handle } from '@sveltejs/kit';
 export const handle = (async ({event, resolve}) => {
     
     event.locals.connection = connection;
-    return await resolve(event);
+    return resolve(event);
 
 }) satisfies Handle;

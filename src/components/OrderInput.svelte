@@ -23,7 +23,7 @@
 	}
 </script>
 
-<div class="text-md">
+<div class="text-md dark:text-white">
 	{#if songTitle}
 		<button on:click={focusOrderInput} type="button">
 			<TransparentInput

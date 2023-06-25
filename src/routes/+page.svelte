@@ -1,22 +1,4 @@
 <script lang="ts">
-	import { editMode, searchedSongTitle, searchedChordValue } from '$lib/songsStore';
-	import { onMount } from 'svelte';
-
-	editMode.set(false);
-	searchedChordValue.set('');
-	searchedSongTitle.set('');
-
-	let songGroups = [] as SQLSongGroup[];
-
-	const fetchSongGroups = async () => {
-		const response = await fetch('/api/song-groups');
-		const jsonReponse = await response.json();
-		songGroups = jsonReponse.rows;
-	};
-
-	onMount(() => {
-		fetchSongGroups();
-	});
 </script>
 
 <a
@@ -35,20 +17,3 @@
 		/>
 	</svg>
 </a>
-
-<div class="flex flex-col gap-2 pt-3">
-	{#each songGroups as songGroup}
-		<a
-			class="relative flex items-start justify-between rounded-xl border border-gray-100 p-4 shadow-md sm:p-6 lg:p-8"
-			href={`/groups/${songGroup.id}`}
-		>
-			<div class="text-gray-500">
-				<h3 class="text-lg font-bold text-gray-900 sm:text-xl">{songGroup.sgTitle}</h3>
-
-				<p class="text-sm sm:block">
-					{songGroup.songTitle} - {songGroup.chordValue}
-				</p>
-			</div>
-		</a>
-	{/each}
-</div>
