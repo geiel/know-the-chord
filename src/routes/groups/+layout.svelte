@@ -6,7 +6,7 @@
 	import type { Chord, Song } from '$lib/types';
 	import { searchedChordValue, searchedSongTitle } from '$lib/songsStore';
 
-	let groupTitle = new Date().toLocaleString('default', { weekday: 'long' });
+	let groupTitle = '';
 	let songsOrders = [];
 	let groupId = 0;
 	let queryChords: Chord[];
@@ -42,7 +42,7 @@
 			method: 'DELETE'
 		});
 
-		goto('/');
+		await goto('/', { invalidateAll: true });
 	}
 
 	function onSearch(event: KeyboardEvent): void {

@@ -2,6 +2,7 @@
 	import { searchedSongTitle, searchedChordValue } from '$lib/songsStore';
 	import { createEventDispatcher } from 'svelte';
 	import TransparentInput from './TransparentInput.svelte';
+	import { fade } from 'svelte/transition';
 
 	const dispatch = createEventDispatcher<{ changePosition: { newPosition: number } }>();
 
